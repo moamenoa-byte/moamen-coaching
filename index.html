@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">   
 <meta name="description" content="مؤمن كوتشنج يقدم تدريب شخصي أونلاين، خطط تدريب ومتابعة مستمرة لمساعدتك على تحقيق أهدافك الرياضية.">
-<meta name="keywords" content="مؤمن كوتشنج, مدرب شخصي, تدريب أونلاين, تدريب رياضي, خطط تدريب, كوتش جيم, تدريب شخصي مصر">
+<meta name="keywords" content="moamen-coaching, مدرب شخصي, تدريب أونلاين, تدريب رياضي, خطط تدريب, كوتش جيم, تدريب شخصي مصر">
     <title>مؤمن كوتشنج | مدرب شخصي وتدريب أونلاين في مصر</title>
 <link rel="canonical" href="https://moamenoa-byte.github.io/moamen-coaching/">
 <meta property="og:title" content="مؤمن كوتشنج | مدرب شخصي وتدريب أونلاين في مصر">
@@ -36,6 +36,7 @@
                 <li><a href="#home">الرئيسية</a></li>
                 <li><a href="#services">الخدمات</a></li>
                 <li><a href="#plans">الباقة</a></li>
+                <a href="#calorie-calculator" class="calorie-link">حساب السعرات</a>
                 <li><a href="#contact">تواصل معنا</a></li>
             </ul>
         </nav>
@@ -231,7 +232,406 @@
             </small>
         </div>
     </footer>
-
+ 
     <script src="script.js"></script>
+    <!-- حاسبة السعرات -->
+<section id="calorie-calculator" dir="rtl">
+  <div class="calculator-box">
+    <h2>حاسبة السعرات اليومية 🔥</h2>
+    <p>احسب احتياجك اليومي من السعرات بشكل تقريبي</p>
+
+    <label>العمر</label>
+    <input type="number" id="age" placeholder="مثال: 25">
+
+    <label>النوع</label>
+    <select id="gender">
+      <option value="male">ذكر</option>
+      <option value="female">أنثى</option>
+    </select>
+
+    <label>الوزن بالكيلو</label>
+    <input type="number" id="weight" placeholder="مثال: 80">
+
+    <label>الطول بالسنتيمتر</label>
+    <input type="number" id="height" placeholder="مثال: 175">
+
+    <label>مستوى النشاط</label>
+    <select id="activity">
+      <option value="1.2">قليل الحركة</option>
+      <option value="1.375">نشاط خفيف</option>
+      <option value="1.55">نشاط متوسط</option>
+      <option value="1.725">نشاط عالي</option>
+      <option value="1.9">نشاط عالي جدًا</option>
+    </select>
+
+    <label>هدفك</label>
+    <select id="goal">
+      <option value="lose">خسارة الوزن</option>
+      <option value="maintain">تثبيت الوزن</option>
+      <option value="gain">زيادة الوزن</option>
+    </select>
+
+    <button onclick="calculateCalories()">احسب احتياجي 🔥</button>
+
+    <div id="result"></div>
+  </div>
+</section>
+
+<style>
+  #calorie-calculator {
+    padding: 50px 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  .calculator-box {
+    max-width: 500px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  }
+
+  .calculator-box h2 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .calculator-box p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 25px;
+  }
+
+  .calculator-box label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+  }
+
+  .calculator-box input,
+  .calculator-box select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+
+  .calculator-box button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #111;
+    color: white;
+    font-size: 17px;
+    cursor: pointer;
+  }
+
+  .calculator-box button:hover {
+    background: #333;
+  }
+
+  #result {
+  margin-top: 25px;
+  padding: 22px;
+  border-radius: 15px;
+  background: #111111;
+  color: #ffffff;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  line-height: 1.8;
+  border: 2px solid #00e676;
+  box-shadow: 0 5px 20px rgba(0, 230, 118, 0.25);
+}
+
+#result strong {
+  display: block;
+  color: #00e676;
+  font-size: 30px;
+  margin-top: 8px;
+}
+
+#result small {
+  display: block;
+  color: #cccccc;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+  
+</style>
+
+<script>
+function calculateCalories() {
+  const age = Number(document.getElementById("age").value);
+  const weight = Number(document.getElementById("weight").value);
+  const height = Number(document.getElementById("height").value);
+  const gender = document.getElementById("gender").value;
+  const activity = Number(document.getElementById("activity").value);
+  const goal = document.getElementById("goal").value;
+  const result = document.getElementById("result");
+
+  if (!age || !weight || !height) {
+    result.innerHTML = "من فضلك املأ كل البيانات أولًا.";
+    return;
+  }
+
+  let bmr;
+
+  if (gender === "male") {
+    bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+  } else {
+    bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+  }
+
+  let calories = bmr * activity;
+
+  if (goal === "lose") {
+    calories -= 400;
+  } else if (goal === "gain") {
+    calories += 300;
+  }
+
+  calories = Math.round(calories);
+
+  result.innerHTML = `
+    احتياجك اليومي التقريبي هو:
+    <strong>${calories} سعر حراري</strong>
+    <br>
+    <small>النتيجة تقديرية وليست بديلًا عن تقييم متخصص.</small>
+  `;
+}
+</script>
+<!-- زر الشات العائم -->
+<div id="chat-button" onclick="toggleChat()">💬</div>
+
+<style>
+  #chat-button {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background: #1877f2;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  #chat-button:hover {
+    background: #0d65d9;
+  }
+</style>
+<div id="chat-box">
+  <div id="chat-header">
+    مساعد الموقع
+    <button onclick="toggleChat()">×</button>
+  </div>
+
+  <div id="chat-messages">
+    <div class="bot-message">
+      أهلًا بك 👋<br>
+      اكتب سؤالك وسأساعدك.
+    </div>
+    <div id="quick-questions">
+  <button onclick="document.getElementById('user-message').value='البرامج التدريبية'">البرامج التدريبية</button>
+  <button onclick="document.getElementById('user-message').value='الأسعار'">الأسعار</button>
+  <button onclick="document.getElementById('user-message').value='إزاي أبدأ؟'">إزاي أبدأ؟</button>
+  <button onclick="document.getElementById('user-message').value='طريقة التواصل'">طريقة التواصل</button>
+  <button onclick="document.getElementById('user-message').value='حاسبة السعرات'">حاسبة السعرات</button>
+  <button onclick="document.getElementById('user-message').value='هل يوجد نظام غذائي؟'">نظام غذائي</button>
+  <button onclick="document.getElementById('user-message').value='هل البرنامج مناسب للمبتدئين؟'">للمبتدئين؟</button>
+  <button onclick="document.getElementById('user-message').value='مدة البرنامج كام؟'">مدة البرنامج</button>
+  <button onclick="document.getElementById('user-message').value='هل يوجد متابعة؟'">المتابعة</button>
+  <button onclick="document.getElementById('user-message').value='طرق الدفع إيه؟'">طرق الدفع</button>
+</div>
+
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="user-message" placeholder="اكتب سؤالك هنا...">
+    <button onclick="sendMessage()">إرسال</button>
+  </div>
+</div>
+
+<style>
+  #chat-box {
+    display: none;
+    position: fixed;
+    bottom: 95px;
+    right: 25px;
+    width: 330px;
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    z-index: 9998;
+    direction: rtl;
+  }
+
+  #chat-header {
+    background: #1877f2;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #chat-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  #chat-messages {
+    height: 280px;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f4f6f8;
+  }
+
+  .bot-message {
+    background: #1877f2;
+    color: white;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+  }
+
+  #chat-input {
+    display: flex;
+    gap: 5px;
+    padding: 10px;
+  }
+
+  #chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+
+  #chat-input button {
+    background: #1877f2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+  }
+</style>
+<script>
+function toggleChat() {
+  const chat = document.getElementById("chat-box");
+
+  if (chat.style.display === "block") {
+    chat.style.display = "none";
+  } else {
+    chat.style.display = "block";
+  }
+}
+function sendMessage() {
+  const input = document.getElementById("user-message");
+  const messages = document.getElementById("chat-messages");
+
+  const question = input.value.trim();
+
+  if (!question) return;
+
+  messages.innerHTML += `
+    <div style="
+      background:#e8f0fe;
+      color:#111;
+      padding:10px;
+      border-radius:12px;
+      margin-bottom:10px;
+      text-align:right;
+    ">
+      ${question}
+    </div>
+  `;
+
+  let answer = "ممكن توضح سؤالك أكتر؟";
+
+  if (question.includes("برنامج") || question.includes("برامج")) {
+    answer = "لدينا برامج تدريب مختلفة حسب هدفك. يمكنك التواصل معنا لمعرفة التفاصيل.";
+
+  } else if (question.includes("سعر") || question.includes("أسعار")) {
+    answer = "لمعرفة الأسعار الحالية، يمكنك التواصل معنا من خلال الموقع.";
+
+  } else if (question.includes("ابدأ") || question.includes("أبدأ")) {
+    answer = "ابدأ بتحديد هدفك، وبعدها تواصل معنا لاختيار البرنامج المناسب.";
+
+  } else if (question.includes("تواصل") || question.includes("واتساب")) {
+    answer = "يمكنك التواصل معنا من خلال زر التواصل الموجود في الموقع.";
+
+  } else if (question.includes("سعرات") || question.includes("السعرات")) {
+    answer = "يمكنك استخدام حاسبة السعرات الموجودة في الموقع لمعرفة احتياجك اليومي التقريبي.";
+
+  } else if (
+    question.includes("غذاء") ||
+    question.includes("غذائي") ||
+    question.includes("نظام غذائي")
+  ) {
+    answer = "يمكنك معرفة تفاصيل النظام الغذائي المتاح من خلال التواصل معنا.";
+
+  } else if (
+    question.includes("مبتدئ") ||
+    question.includes("مبتدئين")
+  ) {
+    answer = "نعم، يمكن اختيار البرنامج المناسب حسب مستواك وهدفك.";
+
+  } else if (
+    question.includes("مدة") ||
+    question.includes("البرنامج كام")
+  ) {
+    answer = "مدة البرنامج تختلف حسب نوع البرنامج. تواصل معنا لمعرفة التفاصيل.";
+
+  } else if (
+    question.includes("متابعة") ||
+    question.includes("متابعه")
+  ) {
+    answer = "تتوفر المتابعة حسب نوع البرنامج.";
+
+  } else if (
+    question.includes("دفع") ||
+    question.includes("الدفع")
+  ) {
+    answer = "لمعرفة طرق الدفع المتاحة، تواصل معنا مباشرة.";
+  }
+
+  messages.innerHTML += `
+    <div style="
+      background:#1877f2;
+      color:white;
+      padding:10px;
+      border-radius:12px;
+      margin-bottom:10px;
+      text-align:right;
+    ">
+      ${answer}
+    </div>
+  `;
+
+  input.value = "";
+  messages.scrollTop = messages.scrollHeight;
+}
+</script>
+
 </body>
 </html>
